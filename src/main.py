@@ -1,9 +1,9 @@
 """Main entry point for the bot"""
 import discord
-import yaml
 from discord.ext import commands
 
 from src.models.config import BotConfig
+from src.instrumentation.initialize import init_opentelmetry
 
 # Create a bot instance
 intents = discord.Intents.default()
@@ -17,10 +17,6 @@ async def on_ready():
     await bot.tree.sync()
     print(f"{bot.user} has connected to Discord!")
 
-@bot.tree.command(name="name", description="poc")
-async def slash_command(interaction: discord.Interaction):
-    await interaction.response.send_message("command")
-
 @bot.event
 async def on_message(message):
     if message.author == bot.user:
@@ -29,7 +25,14 @@ async def on_message(message):
     print(f"Message from {message.author}: {message.content}")
     await message.channel.send("Message received!")
 
+@bot.tree.command(name="name", description="poc")
+async def slash_command(interaction: discord.Interaction):
+    await interaction.response.send_message("command")
 
 if __name__ == "__main__":
     config = BotConfig()
-    bot.run(config.token)
+
+    if config.otel_enable_instrumentation:
+        init_opentelmetry(config, bot)
+
+    bot.run(config.discord_bot_token)
