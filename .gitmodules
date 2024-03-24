@@ -1,0 +1,6 @@
+[submodule "opentelemetry-python"]
+	path = opentelemetry-python
+	url = https://github.com/open-telemetry/opentelemetry-python
+[submodule "kubernetes-playground"]
+	path = kubernetes-playground
+	url = https://github.com/K-T-Ng/kubernetes-playground

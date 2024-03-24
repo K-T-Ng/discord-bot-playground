@@ -1,0 +1,5 @@
+opentelemetry-instrumentation==0.44b0
+
+discord.py==2.3.2
+pydantic==2.6.3
+pydantic-settings==2.2.1
